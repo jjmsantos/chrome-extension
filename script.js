@@ -1,17 +1,31 @@
+/* 
+// myLeads is currently a string
+let myLeads = `["first lead"]`;
+
+//JSON.parse turns myLeads into an array
+myLeads = JSON.parse(myLeads);
+
+//Pushing new code into the array
+myLeads.push("second lead");
+
+//reverts the array back into a string
+myLeads = JSON.stringify(myLeads);
+
+//console logs what myLeads is -- whether that be a string or an array.
+console.log(typeof myLeads);
+ */
+
 let myLeads = [];
 const inputBtn = document.getElementById("input-btn");
 const inputEl = document.getElementById("input-el");
 const ulEl = document.getElementById("ul-el");
+const deleteBtn = document.getElementById("delete-btn");
+const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
 
-inputBtn.addEventListener("click", function () {
-    //console.log("Button clicked!");
-    //myLeads.push("www.awesomelead.com");
-    myLeads.push(inputEl.value).reset;
-    inputEl.value = "";
-    //console.log(myLeads);
+if (leadsFromLocalStorage) {
+    myLeads = leadsFromLocalStorage;
     renderLeads();
-});
-
+}
 
 function renderLeads() {
     let listItems = "";
@@ -34,8 +48,24 @@ function renderLeads() {
         ulEl.append(li)
      */
     
-        //console.log(myLeads[i]);
     }
     
     ulEl.innerHTML = listItems;
 }
+
+deleteBtn.addEventListener("dblclick", function() {
+    console.log("double click");
+    localStorage.clear();
+    myLeads = [];
+    renderLeads();
+});
+
+inputBtn.addEventListener("click", function () {
+    myLeads.push(inputEl.value);
+    inputEl.value = "";
+
+    localStorage.setItem("myLeads", JSON.stringify(myLeads));
+    renderLeads();
+
+});
+
